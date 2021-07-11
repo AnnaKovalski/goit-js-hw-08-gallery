@@ -106,8 +106,9 @@ function onImageClick(event) {
     return;
   }
   const bigSizwImageLink = clikedImage.dataset.source;
-  // console.log(bigSizwImageLink);
-  replacmentSource();
+  const imageAlt = event.srcElement.alt;
+
+  replacmentSource(bigSizwImageLink, imageAlt);
   modalWindowIsOpen();
 }
 const modalContainer = document.querySelector(".js-lightbox");
@@ -117,27 +118,22 @@ function modalWindowIsOpen() {
 }
 
 const closeBtn = document.querySelector(".lightbox__button");
-console.log(closeBtn);
 
 closeBtn.addEventListener("click", modalWindowClosed);
 
 function modalWindowClosed() {
   modalContainer.classList.remove("is-open");
+  originalImage.src = "";
+  originalImage.alt = "";
 }
 
-const bigImageSource = document.querySelector(".lightbox__content");
+const originalImage = document.querySelector(".lightbox__image");
+// console.log(originalImage.src);
+// console.log(originalImage.alt);
 
-console.log(bigImageSource.getAttribute("src"));
-
-let imgSrc = bigImageSource.getAttribute("src");
-let imgAlt = bigImageSource.getAttribute("alt");
-
-function replacmentSource(items) {
-  return galleryItems.map(({ original, description }) => {
-    const newImage = `<img class="lightbox__image" src="${original}" alt="${description}" />`;
-
-    return bigImageSource.insertAdjacentHTML("afterbegin", newImage);
-  });
+function replacmentSource(src, alt) {
+  originalImage.src = src;
+  originalImage.alt = alt;
 }
 
 // Закрытие модального окна по клику на div.lightbox__overlay
